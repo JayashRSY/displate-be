@@ -55,6 +55,12 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 // let upload = multer({ storage: storage });
 
 // Define routes
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Welcome to Displate API'
+    })
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/users', verifyToken, userRoutes);
 app.use('/api/designs', verifyToken, designRoutes);
