@@ -31,7 +31,7 @@ app.listen(port, () => {
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['https://displate-fe.vercel.app/', 'https://displate.netlify.app', 'http://localhost:4200'],
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
