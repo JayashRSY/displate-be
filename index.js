@@ -31,8 +31,10 @@ app.listen(port, () => {
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: true,
-    credentials: true
+    origin: ['https://displate.netlify.app/', 'http://localhost:4200'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
 }));
 app.use(cookieParser());
 app.use(morgan('dev'));
