@@ -19,9 +19,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-7.jpg",
     },
-    roles: {
-        type: [String],
-        default: []
+    role: {
+        type: String,
+        enum: ['user', 'artist', 'admin'],
+        default: 'user'
     },
 }, { timestamps: true });
 

@@ -38,7 +38,7 @@ export const getAllDesigns = async (req, res, next) => {
 export const getDesignById = async (req, res, next) => {
     try {
         const { email } = req.params;
-        const user = await UserModel.find({ email }, 'username email profilePicture roles updatedAt createdAt').lean();
+        const user = await UserModel.find({ email }, 'username email profilePicture role updatedAt createdAt').lean();
         if (!user) next(errorHandler(404, `No user found with emailId: ${email}`));
         res.status(200)
             .json({
@@ -53,7 +53,7 @@ export const getDesignById = async (req, res, next) => {
 export const deleteDesignById = async (req, res, next) => {
     try {
         const { email } = req.params;
-        const user = await UserModel.findOneAndDelete({ email }, 'username email roles updatedAt createdAt').lean();
+        const user = await UserModel.findOneAndDelete({ email }, 'username email role updatedAt createdAt').lean();
         if (!user) next(errorHandler(404, `No user found with emailId: ${email}`));
         res.status(200)
             .json({
@@ -67,11 +67,11 @@ export const deleteDesignById = async (req, res, next) => {
 }
 export const updateDesignById = async (req, res, next) => {
     try {
-        const { username, email, profilePicture, roles } = req.body;
+        const { username, email, profilePicture, role } = req.body;
 
         const user = await UserModel.findOneAndUpdate(
             { email },
-            { username, email, profilePicture, roles },
+            { username, email, profilePicture, role },
             { new: true }
         );
         if (!user) next(errorHandler(404, `No user found with email: ${email}`));

@@ -10,7 +10,7 @@ export const signup = async (req, res, next) => {
         const hashedPassword = bcryptjs.hashSync(password, 12); // hashSync is asynchronous (no need for await)
         const user = await UserModel.findOne({ $or: [{ email }, { username }] });
         if (user) { return next(new Error('User already exists')) }
-        const newUser = new UserModel({ username, email, password: hashedPassword, roles: ['user'] });
+        const newUser = new UserModel({ username, email, password: hashedPassword, role: 'user' });
         await newUser.save();
         res.status(201)
             .json({
@@ -30,7 +30,7 @@ export const signin = async (req, res, next) => {
         if (!validUser) next(errorHandler(404, "User not found"));
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if (!validPassword) next(errorHandler(401, "Invalid password"));
-        const token = jwt.sign({ id: validUser._id, email: validUser.email, username: validUser.username, roles: validUser.roles }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        const token = jwt.sign({ id: validUser._id, email: validUser.email, username: validUser.username, role: validUser.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
         const { password: hashedPassword, ...userDetails } = validUser._doc;
         res.cookie('accessToken', token, {
             httpOnly: true,
@@ -63,7 +63,7 @@ export const google = async (req, res, next) => {
 
         let user = await UserModel.findOne({ email });
         if (user) {
-            const token = jwt.sign({ id: user._id, email: user.email, username: user.username, roles: user.roles }, process.env.JWT_SECRET, { expiresIn: '24h' });
+            const token = jwt.sign({ id: user._id, email: user.email, username: user.username, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
             const { password: hashedPassword, ...userDetails } = user._doc;
             res.cookie('accessToken', token, {
                 httpOnly: true,
@@ -85,10 +85,10 @@ export const google = async (req, res, next) => {
                 email,
                 password: hashedPassword,
                 profilePicture: photoURL,
-                roles: ['user']
+                role: 'user'
             });
             const result = await newUser.save();
-            const token = jwt.sign({ id: result._id, email: result.email, username: result.username, roles: result.roles }, process.env.JWT_SECRET, { expiresIn: '24h' });
+            const token = jwt.sign({ id: result._id, email: result.email, username: result.username, role: result.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
             const { password: savedHashedPassword, ...userDetails } = result._doc;
             res.cookie('accessToken', token, {
                 httpOnly: true,
