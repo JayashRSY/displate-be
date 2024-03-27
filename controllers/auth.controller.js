@@ -36,7 +36,7 @@ export const signin = async (req, res, next) => {
             httpOnly: true,
             maxAge: 3600000,
             secure: process.env.NODE_ENV === 'production',
-            // sameSite: 'none'
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : false
         })
             .status(200)
             .json({
@@ -69,7 +69,7 @@ export const google = async (req, res, next) => {
                 httpOnly: true,
                 maxAge: 3600000,
                 secure: process.env.NODE_ENV === 'production',
-                // sameSite: 'none'
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : false
             })
                 .status(200)
                 .json({
@@ -94,7 +94,7 @@ export const google = async (req, res, next) => {
                 httpOnly: true,
                 maxAge: 3600000,
                 secure: process.env.NODE_ENV === 'production',
-                // sameSite: 'none'
+                sameSite: process.env.NODE_ENV === 'production' ? 'None' : false
             })
                 .status(201)
                 .json({
