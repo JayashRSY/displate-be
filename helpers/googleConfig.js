@@ -56,9 +56,7 @@ export const uploadToDrive = async (file) => {
 
         const bufferStream = new stream.PassThrough();
         bufferStream.end(file.buffer);
-        console.log("3❤️❤️", file);
         const service = await google.drive({ version: "v3", auth: authJWTClient });
-        console.log("2❤️❤️", service);
 
         let data = await service.files.create({
             media: {
@@ -71,9 +69,8 @@ export const uploadToDrive = async (file) => {
             },
             fields: "id,name",
         });
-        console.log('✅✅Uploaded file', data);
         return data;
     } catch (err) {
-        console.log("🚀 ~ file: uploadToBucket.js:59 ~ err:", err);
+        throw err;
     }
 }

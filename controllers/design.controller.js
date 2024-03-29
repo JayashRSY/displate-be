@@ -3,6 +3,7 @@ import { errorHandler } from "../utilities/error.js"
 
 export const createDesigns = async (req, res, next) => {
     try {
+        if (!["artist", "admin"].includes(req.user)) return next(errorHandler(401, "Unauthorized"));
         const { designURLs, name, description, theme, medium, genre, period, brand, color, artist, tags } = req.body;
         if (!designURLs.length) next(errorHandler(400, "Please upload at least one file"));
         let createdDesigns = [];
@@ -22,7 +23,6 @@ export const createDesigns = async (req, res, next) => {
     }
 }
 export const getAllDesigns = async (req, res, next) => {
-    console.log("🚀 ~ file: design.controller.js:25 ~ req:", req.user);
     try {
         const allDesigns = await DesignModel.find({}).lean();
         res.status(200)
@@ -52,6 +52,7 @@ export const getDesignById = async (req, res, next) => {
 }
 export const deleteDesignById = async (req, res, next) => {
     try {
+        if (!["artist", "admin"].includes(req.user)) return next(errorHandler(401, "Unauthorized"));
         const { email } = req.params;
         const user = await UserModel.findOneAndDelete({ email }, 'username email role updatedAt createdAt').lean();
         if (!user) next(errorHandler(404, `No user found with emailId: ${email}`));
@@ -67,6 +68,8 @@ export const deleteDesignById = async (req, res, next) => {
 }
 export const updateDesignById = async (req, res, next) => {
     try {
+        if (!["artist", "admin"].includes(req.user)) return next(errorHandler(401, "Unauthorized"));
+
         const { username, email, profilePicture, role } = req.body;
 
         const user = await UserModel.findOneAndUpdate(

@@ -7,12 +7,12 @@ import {
     deleteDesignById,
     updateDesignById
 } from '../controllers/design.controller.js';
+import { verifyToken } from '../utilities/verifyToken.js';
 
-
-router.post('/createDesigns', createDesigns);
+router.post('/createDesigns', verifyToken, createDesigns);
 router.get('/getAllDesigns', getAllDesigns);
 router.get('/getDesignById/:id', getDesignById);
-router.delete('/deleteDesignById/:email', deleteDesignById);
-router.put('/updateDesignById', updateDesignById);
+router.delete('/deleteDesignById/:email', verifyToken, deleteDesignById);
+router.put('/updateDesignById', verifyToken, updateDesignById);
 
 export default router;

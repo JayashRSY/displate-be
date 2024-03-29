@@ -63,7 +63,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/users', verifyToken, userRoutes);
-app.use('/api/designs', verifyToken, designRoutes);
+app.use('/api/designs', designRoutes);
 app.use('/api/account', verifyToken, accountRoutes);
 
 app.use((err, req, res, next) => {

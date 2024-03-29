@@ -35,7 +35,6 @@ export const addToCart = async (req, res, next) => {
             );
         }
 
-        console.log("🚀 ~ file: account.controller.js:15 ~ updatedCart:", updatedCart);
         res.status(200)
             .json({
                 success: true,
@@ -48,9 +47,7 @@ export const addToCart = async (req, res, next) => {
 }
 
 export const getCart = async (req, res, next) => {
-    console.log("🚀 ~ file: account.controller.js:37 ~ req:", req.user.id);
     try {
-        console.log("🚀 ~ file: account.controller.js:39 ~ req.user.id:", req.user.id);
         const cart = await CartModel.findById(req.user.id).populate('products.product').lean();
         if (!cart) next(errorHandler(404, "Cart not found"));
         res.status(200)
@@ -66,13 +63,11 @@ export const getCart = async (req, res, next) => {
 
 export const emptyCart = async (req, res, next) => {
     try {
-        console.log("🚀 ~ file: account.controller.js:71 ~ req.user.id:", req.user.id);
         const updatedCart = await CartModel.findOneAndUpdate(
             { _id: new mongoose.Types.ObjectId(req.user.id) },
             { $set: { products: [] } },
             { new: true }
         );
-        console.log("🚀 ~ file: account.controller.js:74 ~ updatedCart:", updatedCart);
         res.status(200)
             .json({
                 success: true,
@@ -91,7 +86,6 @@ export const removeFromCart = async (req, res, next) => {
             { $pull: { products: { product: new mongoose.Types.ObjectId(req.body.productId) } } },
             { new: true }
         );
-        console.log("🚀 ~ file: account.controller.js:92 ~ updatedCart:", updatedCart);
         res.status(200)
             .json({
                 success: true,
