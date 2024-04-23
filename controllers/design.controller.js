@@ -88,3 +88,31 @@ export const updateDesignById = async (req, res, next) => {
         next(error);
     }
 }
+// filters
+export const getDesignsByTheme = async (req, res, next) => {
+    try {
+        const { theme } = req.params;
+        const designs = await DesignModel.find({ theme });
+        res.status(200).json({
+            success: true,
+            message: "Designs fetched successfully",
+            data: designs,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getDesignsByTag = async (req, res, next) => {
+    try {
+        const { tag } = req.params;
+        const designs = await DesignModel.find({ tags: tag });
+        res.status(200).json({
+            success: true,
+            message: "Designs fetched successfully",
+            data: designs,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
