@@ -22,8 +22,19 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['user', 'artist', 'admin'],
-        default: 'user'
+        default: 'user',
+        required: true,
     },
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cart',
+        required: true,
+    },
+    wishlist: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Wishlist',
+        required: true,
+    }
 }, { timestamps: true });
 
 const UserModel = mongoose.model("User", userSchema);
