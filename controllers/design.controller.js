@@ -3,7 +3,7 @@ import { errorHandler } from "../utilities/error.js"
 
 export const createDesigns = async (req, res, next) => {
     try {
-        if (!["artist", "admin"].includes(req.user)) return next(errorHandler(401, "Unauthorized"));
+        if (!["artist", "admin"].includes(req.user.role)) return next(errorHandler(401, "Unauthorized"));
         const { designURLs, name, description, theme, medium, genre, period, brand, color, artist, tags } = req.body;
         if (!designURLs.length) next(errorHandler(400, "Please upload at least one file"));
         let createdDesigns = [];
